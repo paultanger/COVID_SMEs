@@ -1,6 +1,10 @@
 data_dir = '/Users/pault/paultangerusda drive/2020_Sync/COVID analysis (Paul Tanger)/data/SME_data/from_Anna/'
 setwd(data_dir)
 data = read.csv('long_rfs_pt.csv', stringsAsFactors = TRUE)
+
+new_version = read.csv('long_rfs_pt_new.csv', stringsAsFactors = TRUE)
+# check new version results?
+data = new_version
 # check how many rows have blank questions
 blank = data[data$question == '',]
 # seems like alot
@@ -15,7 +19,7 @@ setwd(other_data_dir)
 # make list of questions that assess household biz
 questions = levels(data$question)
 # save to filter
-# write.csv(questions, 'questions.csv')
+# write.csv(questions, 'new_questions.csv')
 # load filtered questions
 biz_questions = read.csv('fam_biz_questions_startswith.csv', stringsAsFactors = TRUE)
 biz_questions_list = levels(biz_questions$biz_questions)
