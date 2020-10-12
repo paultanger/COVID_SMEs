@@ -7,7 +7,10 @@ data = read.csv('RECOVR_final_melted_for_R.csv', stringsAsFactors = TRUE)
 data2 = data[data$value != '',]
 
 # filter for biz still open and response starts with yes or no
-data3 = subset(data2, variable == 'biz_still_open')
+# data3 = subset(data2, variable == 'biz_still_open')
+data3 = subset(data2, variable %in% c('biz_still_open', 'main_job_sector'))
+data3 = droplevels(data3)
+levels(data3$variable)
 data4 = data3[startsWith(as.character(data3$value), 'Ye') | startsWith(as.character(data3$value), 'N'),]
 
 data4 = droplevels(data4)
@@ -40,7 +43,12 @@ require(scales)
 p1 <- ggplot(merged, aes(short_value)) + geom_bar(na.rm = TRUE) + facet_wrap( ~ country, ncol=1, scales = "free_x")
 p1 = p1 + scale_x_discrete(labels = wrap_format(10))
 p1 = p1 + ggtitle('Is your business still open?') 
-p1 = p1 + theme(plot.title = element_text(hjust = 0.5))
+p1 <- p1 +  xlab('response') + ylab('total responses')
+p1 = p1 + theme(panel.grid = element_blank(),
+                axis.ticks.x = element_blank(),
+                # strip.background = element_blank(),
+                panel.background = element_blank(),
+                plot.title = element_text(hjust = 0.5))
 # p1 = p1 + theme(axis.text.x = element_text(angle = 90))
 p1
 ggsave('biz_still_open_plot_v1.png', width=8.5, height=11, units='in')
